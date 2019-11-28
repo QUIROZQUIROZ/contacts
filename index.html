@@ -13,16 +13,35 @@
     // Cordova is ready
     //
     function onDeviceReady() {
-        var myContact = navigator.contacts.create({"displayName": "Test User"});
-        myContact.note = "This contact has a note.";
-        console.log("The contact, " + myContact.displayName + ", note: " + myContact.note);
+        var options = new [ContactFindOptions](../ContactFindOptions/contactfindoptions.html)();
+        options.filter="";
+        filter = ["displayName","name"];
+        navigator.contacts.find(filter, onSuccess, onError, options);
     }
 
+    // onSuccess: Get a snapshot of the current contacts
+    //
+    function onSuccess(contacts) {
+        for (var i=0; i<contacts.length; i++) {
+            alert("Formatted: " + contacts[i].name.formatted + "\n" + 
+                    "Family Name: "  + contacts[i].name.familyName + "\n" + 
+                    "Given Name: "  + contacts[i].name.givenName + "\n" + 
+                    "Middle Name: "  + contacts[i].name.middleName + "\n" + 
+                    "Suffix: "  + contacts[i].name.honorificSuffix + "\n" + 
+                    "Prefix: "  + contacts[i].name.honorificPrefix);
+        }
+    };
+
+    // onError: Failed to get the contacts
+    //
+    function onError(contactError) {
+        alert('onError!');
+    }
 
     </script>
   </head>
   <body>
     <h1>Example</h1>
-    <p>Create Contact</p>
+    <p>Find Contacts</p>
   </body>
 </html>
